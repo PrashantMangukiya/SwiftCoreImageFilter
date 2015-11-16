@@ -1,15 +1,17 @@
+## Note: Source code not in working state yet. Please check back soon for more commit.
+
 # Swift Core Image Filter
-Swift 2 based sample shows ``Core Image Filter`` usage within iOS 9 application.
+Sample application shows how to use ``Core Image Filter`` within Swift 2, Xcode 7, iOS 9 application.
 
 ## Overview
-This example shows how to use ``CIImage`` and ``CIFilter`` (i.e. Core Image Filter) within iOS 9 application (Swift 2). It includes funtionality as Selecting image from gallery, or Capture from device camera, Apply filter to that image, Save updated image to phone gallery. Please note this example does not cover all ``Core Image filter`` but shows basic usage i.e. how to apply photo effect to image using some filters. You can use this code as a base and expand it's functionality. It is free for personal or commercial use.
+This example shows how to use ``CIImage`` and ``CIFilter`` (i.e. Core Image Filter) within iOS 9 application (Swift 2). It includes funtionality like, Selecting image from Gallery, or Capture from device Camera, Apply filter to that image, Save updated image to phone Gallery. Please note, this example does not cover all ``Core Image filter`` but shows basic usage i.e. how to apply photo effect to image using filters. You can use this code as a base and expand it's functionality. It is free for personal or commercial use.
 
 **It consist functionality below:**
-+ Selecting image from Gallery.
++ Select image from Gallery.
 + or Capture from device Camera.
-+ Apply various filter to image. 
++ Apply various filter to image.
 + e.g. CIPhotoEffectChrome, CIPhotoEffectMono etc.
-+ Save updated image to gallery.
++ Save updated image to Gallery.
 
 ## Platform
 + Swift 2
