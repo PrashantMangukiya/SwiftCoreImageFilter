@@ -43,10 +43,18 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Core Image Filter" id="9Ts-Yd-7cq">
-                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="uQf-Hr-Ndw"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="uQf-Hr-Ndw">
+                            <connections>
+                                <action selector="cameraButtonAction:" destination="BYZ-38-t0r" id="PoT-QH-TjG"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="PGh-p4-Waa"/>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="cameraButton" destination="uQf-Hr-Ndw" id="hkL-NF-44l"/>
+                        <outlet property="previewImageView" destination="2GI-Ef-B5p" id="NgJ-w0-hyw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
