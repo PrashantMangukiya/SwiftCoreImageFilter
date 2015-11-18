@@ -21,7 +21,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2GI-Ef-B5p">
                                 <rect key="frame" x="10" y="74" width="300" height="225"/>
                                 <animations/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2GI-Ef-B5p" secondAttribute="height" multiplier="4:3" id="LUR-Rb-mED"/>
                                 </constraints>
@@ -53,6 +53,7 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="cameraButton" destination="uQf-Hr-Ndw" id="hkL-NF-44l"/>
+                        <outlet property="filterPicker" destination="e9Q-OQ-deJ" id="jJb-4I-wSl"/>
                         <outlet property="previewImageView" destination="2GI-Ef-B5p" id="NgJ-w0-hyw"/>
                     </connections>
                 </viewController>

@@ -10,23 +10,31 @@ import UIKit
 import MobileCoreServices
 
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
 
     
-    // Outlet & action - camera button
+    // Outlet & action - camera button 
     @IBOutlet var cameraButton: UIBarButtonItem!
     @IBAction func cameraButtonAction(sender: AnyObject) {
         self.showImageSourceActionSheet()
     }
     
     
+    
     // Outlet - image preview
     @IBOutlet var previewImageView: UIImageView!
     
-    
     // Selected image object
     var selctedImage: UIImage!
+    
+    
+    
+    // filter list array
+    var filterList: [String]!
+    
+    // filter selection picker
+    @IBOutlet var filterPicker: UIPickerView!
     
     
     
@@ -36,6 +44,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+
+        // set filter list array
+        self.filterList = ["(( Select Filter ))" ,"PhotoEffectChrome", "PhotoEffectFade", "PhotoEffectInstant", "PhotoEffectMono", "PhotoEffectNoir", "PhotoEffectProcess", "PhotoEffectTonal", "PhotoEffectTransfer"]
+     
+        // set delegate for filter picker
+        self.filterPicker.delegate = self
+        self.filterPicker.dataSource = self
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,6 +81,37 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // dismiss image picker controller
         picker.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    
+    
+    // MARK: - picker view delegate and data source (to choose filter name)
+
+    // how many component (i.e. column) to be displayed within picker view
+    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    // How many rows are there is each component
+    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return self.filterList.count
+    }
+    
+    // title/content for row in given component
+    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        return self.filterList[row]
+    }
+    
+    // called when row selected from any component within picker view
+    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        
+        if row == 0 {
+            print("Filter - NO FILTER")
+        }else{
+            print("Filter - \(self.filterList[row])")
+        }
     }
     
     
@@ -178,7 +224,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
-    
     // Show alert message with OK button
     func showAlertMessage(alertTitle alertTitle: String, alertMessage: String) {
         
@@ -190,7 +235,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         self.presentViewController(myAlertVC, animated: true, completion: nil)
     }
-    
     
     
 }
