@@ -21,6 +21,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     
+    // Outlet & action - save button
+    @IBOutlet var saveButton: UIBarButtonItem!
+    @IBAction func saveButtonAction(sender: UIBarButtonItem) {
+        
+    }
+    
     
     // Outlet - image preview
     @IBOutlet var previewImageView: UIImageView!
@@ -29,9 +35,22 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     var selctedImage: UIImage!
     
     
+    // message label
+    @IBOutlet var messageLabel: UILabel!
+    
+    
+    
+    // Flag indicates that Image selected or not by user.
+    var isImageSelected : Bool!
     
     // filter list array
+    /*
+        0 - NO Filter, 1 - PhotoEffectChrome, 2 - PhotoEffectFade,
+        3 - PhotoEffectInstant, 4 - PhotoEffectMono, 5 - PhotoEffectNoir,
+        6 - PhotoEffectProcess, 7 - PhotoEffectTonal, 8 - PhotoEffectTransfer
+    */
     var filterList: [String]!
+    
     
     // filter selection picker
     @IBOutlet var filterPicker: UIPickerView!
@@ -45,12 +64,24 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        // set filter list array
-        self.filterList = ["(( Select Filter ))" ,"PhotoEffectChrome", "PhotoEffectFade", "PhotoEffectInstant", "PhotoEffectMono", "PhotoEffectNoir", "PhotoEffectProcess", "PhotoEffectTonal", "PhotoEffectTransfer"]
-     
+        // set filter list array.
+        self.filterList = ["(( Choose Filter ))" ,"PhotoEffectChrome", "PhotoEffectFade", "PhotoEffectInstant", "PhotoEffectMono", "PhotoEffectNoir", "PhotoEffectProcess", "PhotoEffectTonal", "PhotoEffectTransfer"]
+        
         // set delegate for filter picker
         self.filterPicker.delegate = self
         self.filterPicker.dataSource = self
+        
+        // set image selected flag as false
+        self.isImageSelected = false
+        
+        // disable filter pickerView
+        self.filterPicker.userInteractionEnabled = false
+        
+        // show message label
+        self.messageLabel.hidden = false
+        
+        // disable save button
+        self.saveButton.enabled = false
     }
 
     override func didReceiveMemoryWarning() {
@@ -71,8 +102,27 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         
         // if image selected the set in preview.
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            // set selected image
             self.selctedImage = newImage
+            
+            // set preview for selected image
             self.previewImageView.image = self.selctedImage
+            
+            // set image selected flag true.
+            self.isImageSelected = false
+            
+            // enable filter pickerView
+            self.filterPicker.userInteractionEnabled = true
+            
+            // hide message label
+            self.messageLabel.hidden = true
+            
+            // disable save button
+            self.saveButton.enabled = false
+            
+            // set filter pickerview to default position
+            self.filterPicker.selectRow(0, inComponent: 0, animated: true)
         }
     }
     
@@ -100,18 +150,22 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     // title/content for row in given component
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
         return self.filterList[row]
     }
     
     // called when row selected from any component within picker view
     func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
+        // disable save button if filter not selected.
+        // enable save button if filter selected.
         if row == 0 {
-            print("Filter - NO FILTER")
+            self.saveButton.enabled = false
         }else{
-            print("Filter - \(self.filterList[row])")
+            self.saveButton.enabled = true
         }
+        
+        // call funtion to apply the selected filter
+        self.applyFilter(selectedFilterIndex: row)
     }
     
     
@@ -221,6 +275,13 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             self.showAlertMessage(alertTitle: "Not Supported", alertMessage: "Camera not supported in emulator.")
         }
         
+    }
+    
+    
+    // apply filter to current image
+    private func applyFilter(selectedFilterIndex selectedFilterIndex: Int) {
+    
+        print("Selected Filter Index - \(selectedFilterIndex)")
     }
     
     

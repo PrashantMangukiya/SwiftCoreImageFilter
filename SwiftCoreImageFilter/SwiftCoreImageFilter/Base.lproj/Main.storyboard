@@ -30,6 +30,16 @@
                                 <rect key="frame" x="0.0" y="352" width="320" height="216"/>
                                 <animations/>
                             </pickerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select image, use Camera button." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zbj-8r-8cI">
+                                <rect key="frame" x="10" y="307" width="300" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="5pd-MG-KDj"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -37,8 +47,11 @@
                             <constraint firstItem="2GI-Ef-B5p" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="10" id="2E5-pb-TNG"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="e9Q-OQ-deJ" secondAttribute="bottom" id="2ET-iG-gvY"/>
                             <constraint firstItem="2GI-Ef-B5p" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="Drs-Ag-Xm4"/>
+                            <constraint firstItem="zbj-8r-8cI" firstAttribute="top" secondItem="2GI-Ef-B5p" secondAttribute="bottom" constant="8" id="IKt-fg-Vmi"/>
                             <constraint firstItem="e9Q-OQ-deJ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="OEL-aH-iEl"/>
                             <constraint firstAttribute="trailing" secondItem="e9Q-OQ-deJ" secondAttribute="trailing" id="kFf-3d-Ned"/>
+                            <constraint firstItem="zbj-8r-8cI" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="lOy-3j-3qy"/>
+                            <constraint firstAttribute="trailing" secondItem="zbj-8r-8cI" secondAttribute="trailing" constant="10" id="p40-7g-Uvg"/>
                             <constraint firstAttribute="trailing" secondItem="2GI-Ef-B5p" secondAttribute="trailing" constant="10" id="soB-9d-fcr"/>
                         </constraints>
                     </view>
@@ -48,13 +61,19 @@
                                 <action selector="cameraButtonAction:" destination="BYZ-38-t0r" id="PoT-QH-TjG"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="PGh-p4-Waa"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="PGh-p4-Waa">
+                            <connections>
+                                <action selector="saveButtonAction:" destination="BYZ-38-t0r" id="hJE-vy-3Ej"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="cameraButton" destination="uQf-Hr-Ndw" id="hkL-NF-44l"/>
                         <outlet property="filterPicker" destination="e9Q-OQ-deJ" id="jJb-4I-wSl"/>
+                        <outlet property="messageLabel" destination="zbj-8r-8cI" id="nby-zQ-mdZ"/>
                         <outlet property="previewImageView" destination="2GI-Ef-B5p" id="NgJ-w0-hyw"/>
+                        <outlet property="saveButton" destination="PGh-p4-Waa" id="Laa-kF-1Ig"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
