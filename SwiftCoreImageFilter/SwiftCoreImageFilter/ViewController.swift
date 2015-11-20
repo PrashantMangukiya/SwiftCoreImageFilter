@@ -31,7 +31,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // Outlet - image preview
     @IBOutlet var previewImageView: UIImageView!
     
-    // Selected image object
+    
+    // Selected image
     var selctedImage: UIImage!
     
     
@@ -39,17 +40,9 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet var messageLabel: UILabel!
     
     
-    
-    // Flag indicates that Image selected or not by user.
-    var isImageSelected : Bool!
-    
-    // filter list array
-    /*
-        0 - NO Filter, 1 - PhotoEffectChrome, 2 - PhotoEffectFade,
-        3 - PhotoEffectInstant, 4 - PhotoEffectMono, 5 - PhotoEffectNoir,
-        6 - PhotoEffectProcess, 7 - PhotoEffectTonal, 8 - PhotoEffectTransfer
-    */
-    var filterList: [String]!
+    // filter Title and Name list
+    var filterTitleList: [String]!
+    var filterNameList: [String]!
     
     
     // filter selection picker
@@ -64,15 +57,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
-        // set filter list array.
-        self.filterList = ["(( Choose Filter ))" ,"PhotoEffectChrome", "PhotoEffectFade", "PhotoEffectInstant", "PhotoEffectMono", "PhotoEffectNoir", "PhotoEffectProcess", "PhotoEffectTonal", "PhotoEffectTransfer"]
+        // set filter title list array.
+        self.filterTitleList = ["(( Choose Filter ))" ,"PhotoEffectChrome", "PhotoEffectFade", "PhotoEffectInstant", "PhotoEffectMono", "PhotoEffectNoir", "PhotoEffectProcess", "PhotoEffectTonal", "PhotoEffectTransfer"]
+        
+        // set filter name list array.
+        self.filterNameList = ["No Filter" ,"CIPhotoEffectChrome", "CIPhotoEffectFade", "CIPhotoEffectInstant", "CIPhotoEffectMono", "CIPhotoEffectNoir", "CIPhotoEffectProcess", "CIPhotoEffectTonal", "CIPhotoEffectTransfer"]
         
         // set delegate for filter picker
         self.filterPicker.delegate = self
         self.filterPicker.dataSource = self
-        
-        // set image selected flag as false
-        self.isImageSelected = false
         
         // disable filter pickerView
         self.filterPicker.userInteractionEnabled = false
@@ -94,7 +87,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     // MARK: image picker delegate function
     
-    // Show selected image in preview
+    // set selected image in preview
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
 
         // dismiss image picker controller
@@ -103,14 +96,11 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         // if image selected the set in preview.
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
             
-            // set selected image
+            // set selected image into variable
             self.selctedImage = newImage
             
             // set preview for selected image
             self.previewImageView.image = self.selctedImage
-            
-            // set image selected flag true.
-            self.isImageSelected = false
             
             // enable filter pickerView
             self.filterPicker.userInteractionEnabled = true
@@ -145,12 +135,12 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     // How many rows are there is each component
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return self.filterList.count
+        return self.filterTitleList.count
     }
     
     // title/content for row in given component
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return self.filterList[row]
+        return self.filterTitleList[row]
     }
     
     // called when row selected from any component within picker view
@@ -279,9 +269,39 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
     // apply filter to current image
-    private func applyFilter(selectedFilterIndex selectedFilterIndex: Int) {
+    private func applyFilter(selectedFilterIndex filterIndex: Int) {
     
-        print("Selected Filter Index - \(selectedFilterIndex)")
+        print("Filter - \(self.filterNameList[filterIndex)")
+        
+        /* filter name
+        0 - NO Filter,
+        1 - PhotoEffectChrome, 2 - PhotoEffectFade, 3 - PhotoEffectInstant, 4 - PhotoEffectMono,
+        5 - PhotoEffectNoir, 6 - PhotoEffectProcess, 7 - PhotoEffectTonal, 8 - PhotoEffectTransfer
+        */
+        
+        // if No filter selected then apply default image and return.
+        if filterIndex == 0 {
+            // set image selected image
+            self.previewImageView.image = self.selctedImage
+            return
+        }
+        
+        // Create and apply filter
+        // 1 - create source image
+        let sourceImage = CIImage(image: self.selctedImage)
+        
+        // 2 - create filter using name
+        let myFilter = CIFilter(name: self.filterNameList[filterIndex])
+        myFilter?.setDefaults()
+        
+        // 3 - set source image
+        myFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
+        
+        // 4 - outout filtered image
+        let filteredImage = myFilter?.outputImage
+        
+        // 5 - set output image to preview
+        self.previewImageView.image = UIImage(CIImage: filteredImage!)
     }
     
     
