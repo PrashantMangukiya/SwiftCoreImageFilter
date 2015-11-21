@@ -12,7 +12,7 @@ import MobileCoreServices
 
 class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-
+    
     
     // Outlet & action - camera button 
     @IBOutlet var cameraButton: UIBarButtonItem!
@@ -25,6 +25,9 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     @IBOutlet var saveButton: UIBarButtonItem!
     @IBAction func saveButtonAction(sender: UIBarButtonItem) {
         
+        UIImageWriteToSavedPhotosAlbum(self.previewImageView.image!, nil, nil, nil)
+        
+        print("Image Saved")
     }
     
     
@@ -75,6 +78,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         
         // disable save button
         self.saveButton.enabled = false
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -285,6 +289,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             self.previewImageView.image = self.selctedImage
             return
         }
+        
         
         // Create and apply filter
         // 1 - create source image
