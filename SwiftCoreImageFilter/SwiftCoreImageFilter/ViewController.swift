@@ -17,6 +17,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // Outlet & action - camera button 
     @IBOutlet var cameraButton: UIBarButtonItem!
     @IBAction func cameraButtonAction(sender: AnyObject) {
+        // show action shee to choose image source.
         self.showImageSourceActionSheet()
     }
     
@@ -24,10 +25,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // Outlet & action - save button
     @IBOutlet var saveButton: UIBarButtonItem!
     @IBAction func saveButtonAction(sender: UIBarButtonItem) {
-        
-        UIImageWriteToSavedPhotosAlbum(self.previewImageView.image!, nil, nil, nil)
-        
-        print("Image Saved")
+        // save image to photo gallery
+        self.saveImageToPhotoGallery()
     }
     
     
@@ -37,7 +36,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     // Selected image
     var selctedImage: UIImage!
-    
+
     
     // message label
     @IBOutlet var messageLabel: UILabel!
@@ -302,11 +301,39 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         // 3 - set source image
         myFilter?.setValue(sourceImage, forKey: kCIInputImageKey)
         
-        // 4 - outout filtered image
-        let filteredImage = myFilter?.outputImage
+        // 4 - create core image context
+        let context = CIContext(options: nil)
         
-        // 5 - set output image to preview
-        self.previewImageView.image = UIImage(CIImage: filteredImage!)
+        // 5 - output filtered image as cgImage with dimension.
+        let outputCGImage = context.createCGImage(myFilter!.outputImage!, fromRect: myFilter!.outputImage!.extent)
+
+        // 6 - convert filtered CGImage to UIImage
+        let filteredImage = UIImage(CGImage: outputCGImage)
+
+        // 7 - set filtered image to preview
+        self.previewImageView.image = filteredImage
+    }
+    
+    
+    // save imaage to photo gallery
+    private func saveImageToPhotoGallery(){
+        // Save image
+        dispatch_async(dispatch_get_main_queue() ) {
+            UIImageWriteToSavedPhotosAlbum(self.previewImageView.image!, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        }
+    }
+    
+    
+    // show message after image saved to photo gallery.
+    func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafePointer<Void>) {
+        
+        // show success or error message.
+        if error == nil {
+            self.showAlertMessage(alertTitle: "Success", alertMessage: "Image Saved To Photo Gallery")
+        } else {
+            self.showAlertMessage(alertTitle: "Error!", alertMessage: (error?.localizedDescription)! )
+        }
+        
     }
     
     
