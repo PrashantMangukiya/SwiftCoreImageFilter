@@ -1,5 +1,5 @@
 # Swift Core Image Filter
-Sample demo shows how to use ``Core Image Filter`` within Swift 2, Xcode 7, iOS 9 application.
+Sample demo shows how to use ``Core Image Filter`` within Swift 3, Xcode 8, iOS10 application.
 
 ## Overview
 This example shows how to use ``CIImage`` and ``CIFilter`` (i.e. Core Image Filter) within iOS 9 application (Swift 2). It includes funtionality like Select image from Gallery, or Capture from device Camera, Apply filter to selected image, Save filtered image to Phone Gallery. Please note, this example does not cover all ``Core Image filter`` but shows basic usage of photo effect filters i.e. how to apply photo effect to image using filter. You can use this code as a base and expand it's functionality. It is free for personal or commercial use.
@@ -17,7 +17,7 @@ This example shows how to use ``CIImage`` and ``CIFilter`` (i.e. Core Image Filt
 + iOS 9
 
 ## Supported Device
-iPhone 4s, 5, 5s, 5c, 6, 6 Plus, 6s, 6s Plus, all iPad having iOS 9.
+iPhone 4s, 5, 5s, 5c, 6, 6 Plus, 6s, 6s Plus, 7, 7 Plus, and all iPad having iOS10.
 
 ## Technology Used
 + ``UIImagePickerController``.
