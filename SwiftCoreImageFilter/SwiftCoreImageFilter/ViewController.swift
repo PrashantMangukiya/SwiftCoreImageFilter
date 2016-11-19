@@ -16,7 +16,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     // Outlet & action - camera button 
     @IBOutlet var cameraButton: UIBarButtonItem!
-    @IBAction func cameraButtonAction(sender: AnyObject) {
+    @IBAction func cameraButtonAction(_ sender: AnyObject) {
         // show action shee to choose image source.
         self.showImageSourceActionSheet()
     }
@@ -24,7 +24,7 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     // Outlet & action - save button
     @IBOutlet var saveButton: UIBarButtonItem!
-    @IBAction func saveButtonAction(sender: UIBarButtonItem) {
+    @IBAction func saveButtonAction(_ sender: UIBarButtonItem) {
         // save image to photo gallery
         self.saveImageToPhotoGallery()
     }
@@ -70,13 +70,13 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         self.filterPicker.dataSource = self
         
         // disable filter pickerView
-        self.filterPicker.userInteractionEnabled = false
+        self.filterPicker.isUserInteractionEnabled = false
         
         // show message label
-        self.messageLabel.hidden = false
+        self.messageLabel.isHidden = false
         
         // disable save button
-        self.saveButton.enabled = false
+        self.saveButton.isEnabled = false
         
     }
 
@@ -91,10 +91,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // MARK: image picker delegate function
     
     // set selected image in preview
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
         // dismiss image picker controller
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
         
         // if image selected the set in preview.
         if let newImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
@@ -106,13 +106,13 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
             self.previewImageView.image = self.selctedImage
             
             // enable filter pickerView
-            self.filterPicker.userInteractionEnabled = true
+            self.filterPicker.isUserInteractionEnabled = true
             
             // hide message label
-            self.messageLabel.hidden = true
+            self.messageLabel.isHidden = true
             
             // disable save button
-            self.saveButton.enabled = false
+            self.saveButton.isEnabled = false
             
             // set filter pickerview to default position
             self.filterPicker.selectRow(0, inComponent: 0, animated: true)
@@ -120,10 +120,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     }
     
     // Close image picker
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         
         // dismiss image picker controller
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
     }
     
     
@@ -132,29 +132,29 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // MARK: - picker view delegate and data source (to choose filter name)
 
     // how many component (i.e. column) to be displayed within picker view
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
     // How many rows are there is each component
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return self.filterTitleList.count
     }
     
     // title/content for row in given component
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return self.filterTitleList[row]
     }
     
     // called when row selected from any component within picker view
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         // disable save button if filter not selected.
         // enable save button if filter selected.
         if row == 0 {
-            self.saveButton.enabled = false
+            self.saveButton.isEnabled = false
         }else{
-            self.saveButton.enabled = true
+            self.saveButton.isEnabled = true
         }
         
         // call funtion to apply the selected filter
@@ -167,27 +167,27 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     // MARK: - Utility functions {
     
     // Show action sheet for image source selection
-    private func showImageSourceActionSheet() {
+    fileprivate func showImageSourceActionSheet() {
         
         // create alert controller having style as ActionSheet
-        let alertCtrl = UIAlertController(title: "Select Image Source" , message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        let alertCtrl = UIAlertController(title: "Select Image Source" , message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
         
         // create photo gallery action
-        let galleryAction = UIAlertAction(title: "Photo Gallery", style: UIAlertActionStyle.Default, handler: {
+        let galleryAction = UIAlertAction(title: "Photo Gallery", style: UIAlertActionStyle.default, handler: {
                 (alertAction) -> Void in
                 self.showPhotoGallery()
             }
         )
         
         // create camera action
-        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.Default, handler: {
+        let cameraAction = UIAlertAction(title: "Camera", style: UIAlertActionStyle.default, handler: {
                 (alertAction) -> Void in
                 self.showCamera()
             }
         )
         
         // create cancel action
-        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Cancel, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.cancel, handler: nil)
         
         // add action to alert controller
         alertCtrl.addAction(galleryAction)
@@ -195,41 +195,41 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         alertCtrl.addAction(cancelAction)
         
         // do this setting for ipad
-        alertCtrl.modalPresentationStyle = UIModalPresentationStyle.Popover
+        alertCtrl.modalPresentationStyle = UIModalPresentationStyle.popover
         let popover = alertCtrl.popoverPresentationController
         popover?.barButtonItem = self.cameraButton
         
         
         // present action sheet
-        self.presentViewController(alertCtrl, animated: true, completion: nil)
+        self.present(alertCtrl, animated: true, completion: nil)
     }
     
     
     // Show photo gallery to choose image
-    private func showPhotoGallery() -> Void {
+    fileprivate func showPhotoGallery() -> Void {
 
         // debug
         print("Choose - Photo Gallery")
         
         // show picker to select image form gallery
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.SavedPhotosAlbum) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.savedPhotosAlbum) {
         
             // create image picker
             let imagePicker = UIImagePickerController()
             
             // set image picker property
             imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+            imagePicker.sourceType = UIImagePickerControllerSourceType.photoLibrary
             imagePicker.mediaTypes = [kUTTypeImage as String]
             imagePicker.allowsEditing = false
             
             // do this settings to show popover within iPad
-            imagePicker.modalPresentationStyle = UIModalPresentationStyle.Popover
+            imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
             let popover = imagePicker.popoverPresentationController
             popover!.barButtonItem = self.cameraButton
             
             // show image picker
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
             
         }else{
             self.showAlertMessage(alertTitle: "Not Supported", alertMessage: "Device can not access gallery.")
@@ -239,30 +239,30 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
 
     
     // Show camera to capture image
-    private func showCamera() -> Void {
+    fileprivate func showCamera() -> Void {
 
         // debug
         print("Choose - Camera")
         
         // show camera
-        if( UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)) {
+        if( UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)) {
             
             // create image picker
             let imagePicker = UIImagePickerController()
 
             // set image picker property
             imagePicker.delegate = self
-            imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
-            imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureMode.Photo
+            imagePicker.sourceType = UIImagePickerControllerSourceType.camera
+            imagePicker.cameraCaptureMode = UIImagePickerControllerCameraCaptureMode.photo
             imagePicker.allowsEditing = false
             
             // do this settings to show popover within iPad
-            imagePicker.modalPresentationStyle = UIModalPresentationStyle.Popover
+            imagePicker.modalPresentationStyle = UIModalPresentationStyle.popover
             let popover = imagePicker.popoverPresentationController
             popover!.barButtonItem = self.cameraButton
             
             // show image picker with camera.
-            self.presentViewController(imagePicker, animated: true, completion: nil)
+            self.present(imagePicker, animated: true, completion: nil)
             
         }else {
             self.showAlertMessage(alertTitle: "Not Supported", alertMessage: "Camera not supported in emulator.")
@@ -272,9 +272,9 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
     // apply filter to current image
-    private func applyFilter(selectedFilterIndex filterIndex: Int) {
+    fileprivate func applyFilter(selectedFilterIndex filterIndex: Int) {
     
-        print("Filter - \(self.filterNameList[filterIndex)")
+//        print("Filter - \(self.filterNameList[filterIndex)")
         
         /* filter name
         0 - NO Filter,
@@ -305,10 +305,10 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         let context = CIContext(options: nil)
         
         // 5 - output filtered image as cgImage with dimension.
-        let outputCGImage = context.createCGImage(myFilter!.outputImage!, fromRect: myFilter!.outputImage!.extent)
+        let outputCGImage = context.createCGImage(myFilter!.outputImage!, from: myFilter!.outputImage!.extent)
 
         // 6 - convert filtered CGImage to UIImage
-        let filteredImage = UIImage(CGImage: outputCGImage)
+        let filteredImage = UIImage(cgImage: outputCGImage!)
 
         // 7 - set filtered image to preview
         self.previewImageView.image = filteredImage
@@ -316,16 +316,16 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
     // save imaage to photo gallery
-    private func saveImageToPhotoGallery(){
+    fileprivate func saveImageToPhotoGallery(){
         // Save image
-        dispatch_async(dispatch_get_main_queue() ) {
-            UIImageWriteToSavedPhotosAlbum(self.previewImageView.image!, self, "image:didFinishSavingWithError:contextInfo:", nil)
+        DispatchQueue.main.async {
+            UIImageWriteToSavedPhotosAlbum(self.previewImageView.image!, self, #selector(ViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
         }
     }
     
     
     // show message after image saved to photo gallery.
-    func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafePointer<Void>) {
+    func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo:UnsafeRawPointer) {
         
         // show success or error message.
         if error == nil {
@@ -338,15 +338,15 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     
     // Show alert message with OK button
-    func showAlertMessage(alertTitle alertTitle: String, alertMessage: String) {
+    func showAlertMessage(alertTitle: String, alertMessage: String) {
         
-        let myAlertVC = UIAlertController( title: alertTitle, message: alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        let myAlertVC = UIAlertController( title: alertTitle, message: alertMessage, preferredStyle: UIAlertControllerStyle.alert)
         
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
 
         myAlertVC.addAction(okAction)
         
-        self.presentViewController(myAlertVC, animated: true, completion: nil)
+        self.present(myAlertVC, animated: true, completion: nil)
     }
     
     
